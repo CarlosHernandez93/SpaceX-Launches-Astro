@@ -1,0 +1,68 @@
+---
+const {name, image, id, details, success, video, date, failures} = Astro.props
+const launchStatus = success ? "Satisfactorio" : "Fallido"
+
+const dateLocal = date.split("T")
+---
+
+<article class="flex flex-col items-center">
+    <header class="mb-8">
+        <h1 class="text-5xl font-bold sm:text-6xl lg:text-7xl">{name}</h1>
+    </header>
+    <img class="h-80 w-80 mb-8" src={image} alt="logo">
+    <p class="text-xl mb-8"><span class="font-bold">ID: </span>{id}</p>
+    {
+        details !== null ? 
+        <p class="text-xl mb-8"><span class="font-bold">Detalles: </span>{details}</p> : 
+        <p class="text-xl mb-8"><span class="font-bold">Detalles: </span>No hay detalles publicados sobre este lanzamiento</p>
+    }
+
+    <p class="text-xl mb-12"><span class="font-bold">Fecha de lanzamiento: </span>{dateLocal[0]}</p>
+
+    <div class="border-solid border-2 border-white rounded-lg w-3/4 flex flex-col items-center p-6">
+        <h2 class="font-bold mb-8 text-4xl">Estado del lanzamiento</h2>
+        {
+            success === false ?
+            <span class:list={[
+                "py-2 px-4 mb-8 rounded",
+                {
+                    "bg-green-400 text-green-900" : success,
+                    "bg-red-400 text-red-900" : !success
+                }
+            ]}
+            >
+                {launchStatus}
+            </span>:
+            <span class:list={[
+                "py-2 px-4 mb-8 rounded",
+                {
+                    "bg-green-400 text-green-900" : success,
+                    "bg-red-400 text-red-900" : !success
+                }
+            ]}
+            >
+                {launchStatus}
+            </span>
+        }
+        {
+            <div class="mb-8 text-center">
+                <p class="text-xl mb-4">
+                    <span class="font-bold">Tiempo: </span>
+                    {failures[0].time}
+                </p>
+                <p class="text-xl mb-4">
+                    <span class="font-bold">Altitud: </span>
+                    {failures[0].altitude}
+                </p>      
+                <p class="text-xl mb-4">
+                    <span class="font-bold">Razon: </span>
+                    {failures[0].reason}
+                </p>  
+            </div>
+        }
+        <astro-video data-url={video}>
+            <div id="video-container"></div>
+        </astro-video>
+    </div>
+</article>
+<script src="../scripts/videoLaunche.js"></script>
